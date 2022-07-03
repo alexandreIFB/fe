@@ -17,7 +17,7 @@ export const InputSearchContainer = styled.div`
     border: none;
     border-radius: 25px;
     height: 50px;
-    box-shadow: 0px 4px 18px rgba(0,0,0,0.5);
+    //box-shadow: 0px 4px 18px rgba(0,0,0,0.5);
     outline: 0;
     padding: 0 16px;
 
