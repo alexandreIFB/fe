@@ -17,8 +17,4 @@ export const Select = styled.select`
   &:focus{
     border-color: ${({ theme }) => theme.colors.primary.main};
   }
-
-  margin-top: 16px;
-  & + & {
-  }
 `;

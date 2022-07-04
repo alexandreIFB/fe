@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  margin-bottom: 24px;
+
   a {
     display: flex;
     align-items: center;
@@ -21,6 +23,5 @@ export const Container = styled.div`
   h1 {
     margin-top: 8px;
     font-size: 24px;
-    margin-bottom: 24px;
   }
 `;

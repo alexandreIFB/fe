@@ -11,7 +11,7 @@ export const Button = styled.button`
   padding: 0 16px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
   border-radius: 4px;
-  margin-top: 16px;
+  margin-top: 24px;
   transition: background 0.15s ease-in;
 
   &:hover {

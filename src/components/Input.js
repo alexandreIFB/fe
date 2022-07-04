@@ -18,8 +18,4 @@ export const Input = styled.input`
   &:focus{
     border-color: ${({ theme }) => theme.colors.primary.main};
   }
-
-  & + & {
-    margin-top: 16px;
-  }
 `;
