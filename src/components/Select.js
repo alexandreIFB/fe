@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 export const Select = styled.select`
-  padding: 16px;
-  font-size: 16px;
+  padding: 0 16px;
+  height: 52px;
   width: 100%;
   border: 2px solid #fff;
   background: #fff;
