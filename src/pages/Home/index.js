@@ -14,6 +14,7 @@ export default function Home() {
       <Modal
         title='Tem certeza que deseja remover o contato "Alexandre"?'
         description="Essa ação não poderá ser desfeita!"
+        danger
       />
 
       <InputSearchContainer>
