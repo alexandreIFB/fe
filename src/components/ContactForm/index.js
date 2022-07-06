@@ -6,6 +6,7 @@ import { Form } from './styles';
 import { Input } from '../Input';
 import { Select } from '../Select';
 import { Button } from '../Button';
+import isEmailValid from '../../utils/isEmailValid';
 
 function ContactForm({ buttonLabel }) {
   const [name, setName] = useState('');
@@ -32,7 +33,22 @@ function ContactForm({ buttonLabel }) {
   console.log(erros);
 
   function handleEmailChange(event) {
-    return setEmail(event.target.value);
+    setEmail(event.target.value);
+
+    if (event.target.value && !isEmailValid(event.target.value)) {
+      const errorAlreadyExist = erros.some((error) => error.field === 'email');
+
+      if (!errorAlreadyExist) {
+        setErros((prevState) => [
+          ...prevState,
+          { field: 'email', message: 'Email invalido' },
+        ]);
+      }
+    } else {
+      setErros((prevState) => prevState.filter(
+        (error) => error.field !== 'email',
+      ));
+    }
   }
 
   function handlePhoneChange(event) {
@@ -66,11 +82,14 @@ function ContactForm({ buttonLabel }) {
           error={erros.some((error) => error.field === 'name')}
         />
       </FormGroup>
-      <FormGroup>
+      <FormGroup
+        error={erros.find((error) => error.field === 'email')?.message}
+      >
         <Input
           placeholder="E-mail"
           value={email}
           onChange={handleEmailChange}
+          error={erros.some((error) => error.field === 'email')}
         />
       </FormGroup>
       <FormGroup>
