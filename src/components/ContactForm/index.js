@@ -7,28 +7,23 @@ import { Input } from '../Input';
 import { Select } from '../Select';
 import { Button } from '../Button';
 import isEmailValid from '../../utils/isEmailValid';
+import useErrors from '../../hooks/useErrors';
 
 function ContactForm({ buttonLabel }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [category, setCategory] = useState('');
-  const [erros, setErros] = useState([]);
 
-  console.log(erros);
+  const { getErrorMessageByFieldName, setError, removeError } = useErrors();
 
   function handleNameChange(event) {
     setName(event.target.value);
 
     if (!event.target.value) {
-      setErros((prevState) => [
-        ...prevState,
-        { field: 'name', message: 'Nome é obrigatorio' },
-      ]);
+      setError({ field: 'name', message: 'Nome é obrigatorio' });
     } else {
-      setErros((prevState) => prevState.filter(
-        (error) => error.field !== 'name',
-      ));
+      removeError('name');
     }
   }
 
@@ -36,18 +31,9 @@ function ContactForm({ buttonLabel }) {
     setEmail(event.target.value);
 
     if (event.target.value && !isEmailValid(event.target.value)) {
-      const errorAlreadyExist = erros.some((error) => error.field === 'email');
-
-      if (!errorAlreadyExist) {
-        setErros((prevState) => [
-          ...prevState,
-          { field: 'email', message: 'Email invalido' },
-        ]);
-      }
+      setError({ field: 'email', message: 'Email invalido' });
     } else {
-      setErros((prevState) => prevState.filter(
-        (error) => error.field !== 'email',
-      ));
+      removeError('email');
     }
   }
 
@@ -68,10 +54,6 @@ function ContactForm({ buttonLabel }) {
       phone,
       category,
     });
-  }
-
-  function getErrorMessageByFieldName(fieldName) {
-    return erros.find((error) => error.field === fieldName)?.message;
   }
 
   return (
