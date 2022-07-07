@@ -15,6 +15,8 @@ function ContactForm({ buttonLabel }) {
   const [category, setCategory] = useState('');
   const [erros, setErros] = useState([]);
 
+  console.log(erros);
+
   function handleNameChange(event) {
     setName(event.target.value);
 
@@ -29,8 +31,6 @@ function ContactForm({ buttonLabel }) {
       ));
     }
   }
-
-  console.log(erros);
 
   function handleEmailChange(event) {
     setEmail(event.target.value);
@@ -70,26 +70,30 @@ function ContactForm({ buttonLabel }) {
     });
   }
 
+  function getErrorMessageByFieldName(fieldName) {
+    return erros.find((error) => error.field === fieldName)?.message;
+  }
+
   return (
     <Form onSubmit={(event) => handleSubmit(event)}>
       <FormGroup
-        error={erros.find((error) => error.field === 'name')?.message}
+        error={getErrorMessageByFieldName('name')}
       >
         <Input
           placeholder="Nome"
           value={name}
           onChange={handleNameChange}
-          error={erros.some((error) => error.field === 'name')}
+          error={getErrorMessageByFieldName('name')}
         />
       </FormGroup>
       <FormGroup
-        error={erros.find((error) => error.field === 'email')?.message}
+        error={getErrorMessageByFieldName('email')}
       >
         <Input
           placeholder="E-mail"
           value={email}
           onChange={handleEmailChange}
-          error={erros.some((error) => error.field === 'email')}
+          error={getErrorMessageByFieldName('email')}
         />
       </FormGroup>
       <FormGroup>
