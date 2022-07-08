@@ -8,6 +8,7 @@ import { Select } from '../Select';
 import { Button } from '../Button';
 import isEmailValid from '../../utils/isEmailValid';
 import useErrors from '../../hooks/useErrors';
+import formatPhone from '../../utils/formatPhone';
 
 function ContactForm({ buttonLabel }) {
   const [name, setName] = useState('');
@@ -38,7 +39,7 @@ function ContactForm({ buttonLabel }) {
   }
 
   function handlePhoneChange(event) {
-    return setPhone(event.target.value);
+    return setPhone(formatPhone(event.target.value));
   }
 
   function handleCategoryChange(event) {
@@ -81,10 +82,11 @@ function ContactForm({ buttonLabel }) {
       </FormGroup>
       <FormGroup>
         <Input
-          type="number"
+          type="tel"
           placeholder="Telefone"
           value={phone}
           onChange={handlePhoneChange}
+          maxLength="15"
         />
       </FormGroup>
       <FormGroup>
