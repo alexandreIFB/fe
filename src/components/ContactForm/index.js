@@ -16,7 +16,11 @@ function ContactForm({ buttonLabel }) {
   const [phone, setPhone] = useState('');
   const [category, setCategory] = useState('');
 
-  const { getErrorMessageByFieldName, setError, removeError } = useErrors();
+  const {
+    getErrorMessageByFieldName, setError, removeError, errors,
+  } = useErrors();
+
+  const isFormValid = (name && errors.length === 0);
 
   function handleNameChange(event) {
     setName(event.target.value);
@@ -63,7 +67,7 @@ function ContactForm({ buttonLabel }) {
         error={getErrorMessageByFieldName('name')}
       >
         <Input
-          placeholder="Nome"
+          placeholder="Nome *"
           value={name}
           onChange={handleNameChange}
           error={getErrorMessageByFieldName('name')}
@@ -99,7 +103,7 @@ function ContactForm({ buttonLabel }) {
           <option value="1">Discord</option>
         </Select>
       </FormGroup>
-      <Button type="submit">{buttonLabel}</Button>
+      <Button type="submit" disabled={!isFormValid}>{buttonLabel}</Button>
     </Form>
   );
 }

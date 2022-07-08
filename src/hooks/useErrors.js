@@ -31,7 +31,11 @@ function useErrors() {
   }
 
   return {
-    setError, removeError, findMessageError, getErrorMessageByFieldName,
+    setError,
+    removeError,
+    findMessageError,
+    getErrorMessageByFieldName,
+    errors,
   };
 }
 
