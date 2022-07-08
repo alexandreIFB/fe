@@ -10,6 +10,7 @@ export const Select = styled.select`
   border-radius: 4px;
   outline: 0;
   transition: border-color 0.15s ease-in;
+  appearance: none;
 
   &::placeholder {
     color: #BCBCBC;
