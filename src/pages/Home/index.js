@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import {
   Card, Container, Header, InputSearchContainer, ListContainer,
 } from './styles';
@@ -9,6 +10,19 @@ import trash from '../../assets/images/icons/trash.svg';
 // import Modal from '../../components/Moda';
 
 export default function Home() {
+  const [contacts, setContacts] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3001/contacts')
+      .then(async (response) => {
+        const json = await response.json();
+        setContacts(json);
+      })
+      .catch((error) => {
+        console.log('Erro', error);
+      });
+  }, []);
+
   return (
     <Container>
 
@@ -17,7 +31,10 @@ export default function Home() {
       </InputSearchContainer>
 
       <Header>
-        <strong>3 contatos</strong>
+        <strong>
+          {contacts.length}
+          {contacts.length === 1 ? ' contato' : ' contatos'}
+        </strong>
         <Link to="/new">Novo Contato</Link>
       </Header>
 
@@ -28,67 +45,30 @@ export default function Home() {
             <img src={arrow} alt="ArrowUp" />
           </button>
         </header>
+        {
+          contacts.map((contact) => (
+            <Card key={contact.id}>
+              <div className="info">
+                <div className="contact-name">
+                  <strong>{contact.name}</strong>
+                  {contact.category_name && (<small>{contact.category_name}</small>)}
+                </div>
+                <span>{contact.email}</span>
+                <span>{contact.phone}</span>
+              </div>
 
-        <Card>
-          <div className="info">
-            <div className="contact-name">
-              <strong>Alexandre Abreu</strong>
-              <small>Instagram</small>
-            </div>
-            <span>abreuxandi2010@gmail.com</span>
-            <span>(61) 9 9193-5209</span>
-          </div>
+              <div className="actions">
+                <Link to={`/edit/${contact.id}`}>
+                  <img src={edit} alt="Edit" />
+                </Link>
 
-          <div className="actions">
-            <Link to="/edit/12">
-              <img src={edit} alt="Edit" />
-            </Link>
-
-            <button type="button">
-              <img src={trash} alt="Delete" />
-            </button>
-          </div>
-        </Card>
-        <Card>
-          <div className="info">
-            <div className="contact-name">
-              <strong>Alexandre Abreu</strong>
-              <small>Instagram</small>
-            </div>
-            <span>abreuxandi2010@gmail.com</span>
-            <span>(61) 9 9193-5209</span>
-          </div>
-
-          <div className="actions">
-            <a href="/">
-              <img src={edit} alt="Edit" />
-            </a>
-
-            <button type="button">
-              <img src={trash} alt="Delete" />
-            </button>
-          </div>
-        </Card>
-        <Card>
-          <div className="info">
-            <div className="contact-name">
-              <strong>Alexandre Abreu</strong>
-              <small>Instagram</small>
-            </div>
-            <span>abreuxandi2010@gmail.com</span>
-            <span>(61) 9 9193-5209</span>
-          </div>
-
-          <div className="actions">
-            <a href="/">
-              <img src={edit} alt="Edit" />
-            </a>
-
-            <button type="button">
-              <img src={trash} alt="Delete" />
-            </button>
-          </div>
-        </Card>
+                <button type="button">
+                  <img src={trash} alt="Delete" />
+                </button>
+              </div>
+            </Card>
+          ))
+        }
       </ListContainer>
 
     </Container>
