@@ -59,18 +59,25 @@ export const ListContainer = styled.div`
 
   header {
     margin-bottom: 8px;
+
     button {
-    background: transparent;
-    border: none;
-    display: flex;
-    align-items: center;
+      background: transparent;
+      border: none;
+      display: flex;
+      align-items: center;
+
+      span {
+        margin-right: 8px;
+        font-weight: bold;
+        color: ${({ theme }) => theme.colors.primary.main};
+      }
+
+      img {
+        transform: ${({ orderBy }) => (orderBy === 'asc' ? 'rotate(-180deg)' : 'rotate(0deg)')};
+        transition: transform 0.15s ease-in;
+      }
     }
 
-    span {
-      margin-right: 8px;
-      font-weight: bold;
-      color: ${({ theme }) => theme.colors.primary.main};
-    }
   }
 `;
 
