@@ -23,21 +23,22 @@ export default function Home() {
     contact.name.toUpperCase().includes(searchTerm.toUpperCase())))
   ), [contacts, searchTerm]);
 
-  useEffect(() => {
-    async function loadContacts() {
-      try {
-        setIsLoading(true);
+  async function loadContacts() {
+    try {
+      setIsLoading(true);
 
-        const contactsList = await ContactsService.listContacts(orderBy);
+      const contactsList = await ContactsService.listContacts(orderBy);
 
-        setContacts(contactsList);
-      } catch (error) {
-        setErrorContacts(true);
-      } finally {
-        setIsLoading(false);
-      }
+      setContacts(contactsList);
+      setErrorContacts(false);
+    } catch (error) {
+      setErrorContacts(true);
+    } finally {
+      setIsLoading(false);
     }
+  }
 
+  useEffect(() => {
     loadContacts();
   }, [orderBy]);
 
@@ -49,6 +50,10 @@ export default function Home() {
 
   function handleSearchTermChange(event) {
     return setSearchTerm(event.target.value);
+  }
+
+  function handleTryAgain() {
+    loadContacts();
   }
 
   return (
@@ -81,54 +86,51 @@ export default function Home() {
 
           <div className="details">
             <strong>Ocorreu um erro ao obter os seus contatos!</strong>
-            <Button type="button">Tentar Novamente</Button>
+            <Button type="button" onClick={handleTryAgain}>Tentar Novamente</Button>
           </div>
         </ErroContainer>
       )}
 
-      <ListContainer orderBy={orderBy}>
-        {
-          filteredContacts.length > 0 && (
-            <header>
-              <button type="button" className="sort-button" onClick={handleToggleOrderyBy}>
-                <span>Nome</span>
-                <img src={arrow} alt="ArrowUp" />
-              </button>
-            </header>
-          )
-        }
-        {/* <header>
-          <button type="button" className="sort-button" onClick={handleToggleOrderyBy}>
-            <span>Nome</span>
-            <img src={arrow} alt="ArrowUp" />
-          </button>
-        </header> */}
+      {!errorContacts
+        && (
+          <ListContainer orderBy={orderBy}>
+            {
+              filteredContacts.length > 0 && (
+                <header>
+                  <button type="button" className="sort-button" onClick={handleToggleOrderyBy}>
+                    <span>Nome</span>
+                    <img src={arrow} alt="ArrowUp" />
+                  </button>
+                </header>
+              )
+            }
 
-        {
-          filteredContacts.map((contact) => (
-            <Card key={contact.id}>
-              <div className="info">
-                <div className="contact-name">
-                  <strong>{contact.name}</strong>
-                  {contact.category_name && (<small>{contact.category_name}</small>)}
-                </div>
-                <span>{contact.email}</span>
-                <span>{contact.phone}</span>
-              </div>
+            {
+              (filteredContacts.map((contact) => (
+                <Card key={contact.id}>
+                  <div className="info">
+                    <div className="contact-name">
+                      <strong>{contact.name}</strong>
+                      {contact.category_name && (<small>{contact.category_name}</small>)}
+                    </div>
+                    <span>{contact.email}</span>
+                    <span>{contact.phone}</span>
+                  </div>
 
-              <div className="actions">
-                <Link to={`/edit/${contact.id}`}>
-                  <img src={edit} alt="Edit" />
-                </Link>
+                  <div className="actions">
+                    <Link to={`/edit/${contact.id}`}>
+                      <img src={edit} alt="Edit" />
+                    </Link>
 
-                <button type="button">
-                  <img src={trash} alt="Delete" />
-                </button>
-              </div>
-            </Card>
-          ))
-        }
-      </ListContainer>
+                    <button type="button">
+                      <img src={trash} alt="Delete" />
+                    </button>
+                  </div>
+                </Card>
+              )))
+            }
+          </ListContainer>
+        )}
 
     </Container>
   );
