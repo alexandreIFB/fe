@@ -1,23 +1,24 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
 import {
-  Card, Container, Header, InputSearchContainer, ListContainer,
+  Card, Container, ErroContainer, Header, InputSearchContainer, ListContainer,
 } from './styles';
 
 import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
+import sad from '../../assets/images/sad.svg';
 
 import Loader from '../../components/Loader';
 import ContactsService from '../../service/ContactsService';
-import APIError from '../../erros/APIErros';
+import { Button } from '../../components/Button';
 
 export default function Home() {
   const [contacts, setContacts] = useState([]);
   const [orderBy, setOrderBy] = useState('asc');
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-
+  const [errorContacts, setErrorContacts] = useState(false);
   const filteredContacts = useMemo(() => (contacts.filter((contact) => (
     contact.name.toUpperCase().includes(searchTerm.toUpperCase())))
   ), [contacts, searchTerm]);
@@ -31,12 +32,7 @@ export default function Home() {
 
         setContacts(contactsList);
       } catch (error) {
-        if (error instanceof APIError) {
-          console.log(error);
-          console.log('Response:', error.response);
-        } else {
-          console.log('Error não tratado --> enviar pro log');
-        }
+        setErrorContacts(true);
       } finally {
         setIsLoading(false);
       }
@@ -68,13 +64,27 @@ export default function Home() {
         />
       </InputSearchContainer>
 
-      <Header>
-        <strong>
-          {filteredContacts.length}
-          {filteredContacts.length === 1 ? ' contato' : ' contatos'}
-        </strong>
+      <Header errorContacts={errorContacts}>
+        {!errorContacts && (
+          <strong>
+            {filteredContacts.length}
+            {filteredContacts.length === 1 ? ' contato' : ' contatos'}
+          </strong>
+        )}
+
         <Link to="/new">Novo Contato</Link>
       </Header>
+
+      {errorContacts && (
+        <ErroContainer>
+          <img src={sad} alt="sadImage" />
+
+          <div className="details">
+            <strong>Ocorreu um erro ao obter os seus contatos!</strong>
+            <Button type="button">Tentar Novamente</Button>
+          </div>
+        </ErroContainer>
+      )}
 
       <ListContainer orderBy={orderBy}>
         {

@@ -26,9 +26,12 @@ export const InputSearchContainer = styled.div`
 
 export const Header = styled.header`
   display: flex;
-  justify-content: space-between;
+
+  justify-content: ${({ errorContacts }) => (errorContacts ? 'flex-end' : 'space-between')};
   align-items: center;
   margin-top: 32px;
+  border-bottom: 2px solid ${({ theme }) => theme.colors.gray[100]};
+  padding-bottom: 16px;
 
   strong {
     color: #222222;
@@ -39,7 +42,6 @@ export const Header = styled.header`
     color: ${({ theme }) => theme.colors.primary.main};
     text-decoration: none;
     font-weight: bold;
-
     border: 2px solid ${({ theme }) => theme.colors.primary.main};
     border-radius: 4px;
 
@@ -126,6 +128,24 @@ export const Card = styled.div`
       background: transparent;
       border: none;
       margin-left: 8px;
+    }
+  }
+`;
+
+export const ErroContainer = styled.div`
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+
+  .details {
+    margin-left: 24px;
+
+
+    strong {
+      font-size: 22px;
+      color: ${({ theme }) => theme.colors.danger.main};
+      display: block;
+      margin-bottom: 8px;
     }
   }
 `;
