@@ -4,7 +4,14 @@ import {
   useEffect, useState, useMemo, useCallback,
 } from 'react';
 import {
-  Card, Container, EmpytListContainer, ErroContainer, Header, InputSearchContainer, ListContainer,
+  Card,
+  Container,
+  SearchNotFound,
+  EmpytListContainer,
+  ErroContainer,
+  Header,
+  InputSearchContainer,
+  ListContainer,
 } from './styles';
 
 import arrow from '../../assets/images/icons/arrow.svg';
@@ -12,6 +19,7 @@ import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
 import sad from '../../assets/images/sad.svg';
 import emptyBox from '../../assets/images/empty-box.svg';
+import magnifierQuestion from '../../assets/images/magnifier-question.svg';
 
 import Loader from '../../components/Loader';
 import ContactsService from '../../service/ContactsService';
@@ -112,59 +120,72 @@ export default function Home() {
 
       {!errorContacts
         && (
-          <ListContainer orderBy={orderBy}>
-
+          <>
             {
-              (contacts.length < 1 && !isLoading) && (
-                <EmpytListContainer>
-                  <img src={emptyBox} alt="Empyt Box" />
-                  <p>
-                    Você ainda não tem nenhum contato cadastrado!
-                    Clique no botão <strong>”Novo contato”</strong> à cima
-                    para cadastrar o seu primeiro!
-                  </p>
-                </EmpytListContainer>
+              (contacts.length > 0 && filteredContacts.length < 1) && (
+                <SearchNotFound>
+                  <img src={magnifierQuestion} alt="Mag" />
+
+                  <span>
+                    Nenhum resultado foi encontrado para <strong>{searchTerm}</strong>.
+                  </span>
+                </SearchNotFound>
               )
             }
 
-            {
-              filteredContacts.length > 0 && (
-                <header>
-                  <button type="button" className="sort-button" onClick={handleToggleOrderyBy}>
-                    <span>Nome</span>
-                    <img src={arrow} alt="ArrowUp" />
-                  </button>
-                </header>
-              )
-            }
+            <ListContainer orderBy={orderBy}>
 
-            {
-              (filteredContacts.map((contact) => (
-                <Card key={contact.id}>
-                  <div className="info">
-                    <div className="contact-name">
-                      <strong>{contact.name}</strong>
-                      {contact.category_name && (<small>{contact.category_name}</small>)}
-                    </div>
-                    <span>{contact.email}</span>
-                    <span>{contact.phone}</span>
-                  </div>
+              {
+                (contacts.length < 1 && !isLoading) && (
+                  <EmpytListContainer>
+                    <img src={emptyBox} alt="Empyt Box" />
+                    <p>
+                      Você ainda não tem nenhum contato cadastrado!
+                      Clique no botão <strong>”Novo contato”</strong> à cima
+                      para cadastrar o seu primeiro!
+                    </p>
+                  </EmpytListContainer>
+                )
+              }
 
-                  <div className="actions">
-                    <Link to={`/edit/${contact.id}`}>
-                      <img src={edit} alt="Edit" />
-                    </Link>
-
-                    <button type="button">
-                      <img src={trash} alt="Delete" />
+              {
+                filteredContacts.length > 0 && (
+                  <header>
+                    <button type="button" className="sort-button" onClick={handleToggleOrderyBy}>
+                      <span>Nome</span>
+                      <img src={arrow} alt="ArrowUp" />
                     </button>
-                  </div>
-                </Card>
-              )))
-            }
-          </ListContainer>
-        )}
+                  </header>
+                )
+              }
 
+              {
+                (filteredContacts.map((contact) => (
+                  <Card key={contact.id}>
+                    <div className="info">
+                      <div className="contact-name">
+                        <strong>{contact.name}</strong>
+                        {contact.category_name && (<small>{contact.category_name}</small>)}
+                      </div>
+                      <span>{contact.email}</span>
+                      <span>{contact.phone}</span>
+                    </div>
+
+                    <div className="actions">
+                      <Link to={`/edit/${contact.id}`}>
+                        <img src={edit} alt="Edit" />
+                      </Link>
+
+                      <button type="button">
+                        <img src={trash} alt="Delete" />
+                      </button>
+                    </div>
+                  </Card>
+                )))
+              }
+            </ListContainer>
+          </>
+        )}
     </Container>
   );
 }

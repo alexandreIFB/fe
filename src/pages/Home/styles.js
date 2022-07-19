@@ -165,3 +165,16 @@ export const EmpytListContainer = styled.div`
     }
   }
 `;
+
+export const SearchNotFound = styled.div`
+  display: flex;
+  margin-top: 16px;
+  align-items: flex-start;
+
+  span {
+    color: ${({ theme }) => theme.colors.gray[200]};
+    font-size: 16px;
+    margin-left: 24px;
+    word-break: break-word;
+  }
+`;
