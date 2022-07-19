@@ -1,15 +1,17 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import { Link } from 'react-router-dom';
 import {
   useEffect, useState, useMemo, useCallback,
 } from 'react';
 import {
-  Card, Container, ErroContainer, Header, InputSearchContainer, ListContainer,
+  Card, Container, EmpytListContainer, ErroContainer, Header, InputSearchContainer, ListContainer,
 } from './styles';
 
 import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
 import sad from '../../assets/images/sad.svg';
+import emptyBox from '../../assets/images/empty-box.svg';
 
 import Loader from '../../components/Loader';
 import ContactsService from '../../service/ContactsService';
@@ -62,17 +64,32 @@ export default function Home() {
     <Container>
       <Loader isLoading={isLoading} />
 
-      <InputSearchContainer>
-        <input
-          type="text"
-          placeholder="Pesquisar contato"
-          value={searchTerm}
-          onChange={handleSearchTermChange}
-        />
-      </InputSearchContainer>
+      {
+        contacts.length > 0 && (
+          <InputSearchContainer>
+            <input
+              type="text"
+              placeholder="Pesquisar contato"
+              value={searchTerm}
+              onChange={handleSearchTermChange}
+            />
+          </InputSearchContainer>
+        )
+      }
 
-      <Header errorContacts={errorContacts}>
-        {!errorContacts && (
+      <Header
+        justifyContent={(
+          // eslint-disable-next-line no-nested-ternary
+          errorContacts
+            ? 'flex-end'
+            : (
+              contacts.length > 0
+                ? 'space-between'
+                : 'center'
+            )
+        )}
+      >
+        {(!errorContacts && contacts.length > 0) && (
           <strong>
             {filteredContacts.length}
             {filteredContacts.length === 1 ? ' contato' : ' contatos'}
@@ -96,6 +113,20 @@ export default function Home() {
       {!errorContacts
         && (
           <ListContainer orderBy={orderBy}>
+
+            {
+              (contacts.length < 1 && !isLoading) && (
+                <EmpytListContainer>
+                  <img src={emptyBox} alt="Empyt Box" />
+                  <p>
+                    Você ainda não tem nenhum contato cadastrado!
+                    Clique no botão <strong>”Novo contato”</strong> à cima
+                    para cadastrar o seu primeiro!
+                  </p>
+                </EmpytListContainer>
+              )
+            }
+
             {
               filteredContacts.length > 0 && (
                 <header>

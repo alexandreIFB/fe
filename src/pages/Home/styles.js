@@ -27,7 +27,7 @@ export const InputSearchContainer = styled.div`
 export const Header = styled.header`
   display: flex;
 
-  justify-content: ${({ errorContacts }) => (errorContacts ? 'flex-end' : 'space-between')};
+  justify-content: ${({ justifyContent }) => justifyContent};
   align-items: center;
   margin-top: 32px;
   border-bottom: 2px solid ${({ theme }) => theme.colors.gray[100]};
@@ -146,6 +146,22 @@ export const ErroContainer = styled.div`
       color: ${({ theme }) => theme.colors.danger.main};
       display: block;
       margin-bottom: 8px;
+    }
+  }
+`;
+
+export const EmpytListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  p {
+    margin-top: 8px;
+    text-align: center;
+    color: ${({ theme }) => theme.colors.gray[200]};
+
+    strong {
+      color: ${({ theme }) => theme.colors.primary.main};
     }
   }
 `;
