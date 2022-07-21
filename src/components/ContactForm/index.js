@@ -17,6 +17,7 @@ function ContactForm({ buttonLabel }) {
   const [phone, setPhone] = useState('');
   const [categoryId, setCategoryId] = useState('');
   const [categories, setCategories] = useState([]);
+  const [isLoadCategories, setIsLoadCategories] = useState(true);
 
   const {
     getErrorMessageByFieldName, setError, removeError, errors,
@@ -30,7 +31,9 @@ function ContactForm({ buttonLabel }) {
         const categoriesList = await CategoriesService.listCategories();
 
         setCategories(categoriesList);
-      } catch { }
+      } catch { } finally {
+        setIsLoadCategories(false);
+      }
     }
 
     loadCategories();
@@ -108,10 +111,11 @@ function ContactForm({ buttonLabel }) {
           maxLength="15"
         />
       </FormGroup>
-      <FormGroup>
+      <FormGroup isLoading={isLoadCategories}>
         <Select
           value={categoryId}
           onChange={handleCategoryChange}
+          disabled={isLoadCategories}
         >
           <option value="">Sem Categoria</option>
           {
