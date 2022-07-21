@@ -6,7 +6,7 @@ class CategoriesService {
   }
 
   async listCategories() {
-    return this.localHostHttpClient.get('/categories');
+    return this.localHostHttpClient.get('/categoriess');
   }
 }
 
