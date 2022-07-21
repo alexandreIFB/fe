@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FormGroup from '../FormGroup';
 
 import { Form } from './styles';
@@ -9,18 +9,30 @@ import { Button } from '../Button';
 import isEmailValid from '../../utils/isEmailValid';
 import useErrors from '../../hooks/useErrors';
 import formatPhone from '../../utils/formatPhone';
+import CategoriesService from '../../service/CategoriesService';
 
 function ContactForm({ buttonLabel }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [category, setCategory] = useState('');
+  const [categoryId, setCategoryId] = useState('');
+  const [categories, setCategories] = useState([]);
 
   const {
     getErrorMessageByFieldName, setError, removeError, errors,
   } = useErrors();
 
   const isFormValid = (name && errors.length === 0);
+
+  useEffect(() => {
+    async function loadCategories() {
+      const categoriesList = await CategoriesService.listCategories();
+
+      setCategories(categoriesList);
+    }
+
+    loadCategories();
+  }, []);
 
   function handleNameChange(event) {
     setName(event.target.value);
@@ -47,7 +59,7 @@ function ContactForm({ buttonLabel }) {
   }
 
   function handleCategoryChange(event) {
-    return setCategory(event.target.value);
+    return setCategoryId(event.target.value);
   }
 
   function handleSubmit(event) {
@@ -61,6 +73,7 @@ function ContactForm({ buttonLabel }) {
     // });
   }
 
+  console.log('rendes');
   return (
     <Form onSubmit={handleSubmit} noValidate>
       <FormGroup
@@ -95,12 +108,20 @@ function ContactForm({ buttonLabel }) {
       </FormGroup>
       <FormGroup>
         <Select
-          value={category}
+          value={categoryId}
           onChange={handleCategoryChange}
         >
-          <option value="">Categoria</option>
-          <option value="INSTAGRAM">Instagram</option>
-          <option value="1">Discord</option>
+          <option value="">Sem Categoria</option>
+          {
+            categories.map((category) => (
+              <option
+                key={category.id}
+                value={category.id}
+              >
+                {category.name}
+              </option>
+            ))
+          }
         </Select>
       </FormGroup>
       <Button type="submit" disabled={!isFormValid}>{buttonLabel}</Button>
