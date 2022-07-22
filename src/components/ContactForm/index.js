@@ -11,7 +11,7 @@ import useErrors from '../../hooks/useErrors';
 import formatPhone from '../../utils/formatPhone';
 import CategoriesService from '../../service/CategoriesService';
 
-function ContactForm({ buttonLabel }) {
+function ContactForm({ buttonLabel, onSubmit }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -70,15 +70,11 @@ function ContactForm({ buttonLabel }) {
   function handleSubmit(event) {
     event.preventDefault();
 
-    // console.log({
-    //   name,
-    //   email,
-    //   phone,
-    //   category,
-    // });
+    onSubmit({
+      name, email, phone, categoryId,
+    });
   }
 
-  console.log('rendes');
   return (
     <Form onSubmit={handleSubmit} noValidate>
       <FormGroup
@@ -137,6 +133,7 @@ function ContactForm({ buttonLabel }) {
 
 ContactForm.propTypes = {
   buttonLabel: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default ContactForm;
