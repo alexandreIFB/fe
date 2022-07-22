@@ -1,14 +1,19 @@
 import PropTypes from 'prop-types';
+import Spinner from '../Spinner';
 import { Container } from './styles';
 
 function FormGroup({ children, error, isLoading }) {
-  console.log(isLoading);
   return (
     <Container Container>
+
       <div className="form-item">
         {children}
 
-        {isLoading && <div className="loader" />}
+        {isLoading && (
+          <div className="loader">
+            <Spinner size={16} />
+          </div>
+        )}
       </div>
       {error && <small>{error}</small>}
     </Container>
