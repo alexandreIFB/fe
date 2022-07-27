@@ -23,7 +23,7 @@ import magnifierQuestion from '../../assets/images/magnifier-question.svg';
 
 import Loader from '../../components/Loader';
 import ContactsService from '../../service/ContactsService';
-import { Button } from '../../components/Button';
+import Button from '../../components/  Button';
 
 export default function Home() {
   const [contacts, setContacts] = useState([]);
