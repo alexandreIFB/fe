@@ -5,16 +5,20 @@ import GlobalStyles from '../../assets/styles/global';
 import { Container } from './styles';
 import Header from '../Header';
 import ContainerRoutes from '../../ContainerRoutes';
+import ToastContainer from '../Toast/ToastContainer';
 
 function App() {
   return (
     <BrowserRouter>
       <ThemeProvider theme={defaultTheme}>
         <GlobalStyles />
+        <ToastContainer />
+
         <Container>
           <Header />
           <ContainerRoutes />
         </Container>
+
       </ThemeProvider>
     </BrowserRouter>
   );
