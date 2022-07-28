@@ -1,7 +1,7 @@
 import ContactForm from '../../components/ContactForm';
 import PageHeader from '../../components/PageHeader';
 import ContactsService from '../../service/ContactsService';
-import { addToast } from '../../service/utils/addToast';
+import { addToast } from '../../utils/addToast';
 
 export default function NewContact() {
   async function handleSubmit(formData) {
