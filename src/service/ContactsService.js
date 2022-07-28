@@ -10,7 +10,7 @@ class ContactsService {
   }
 
   async createContact(contact) {
-    return this.localHostHttpClient.post('/contactss', {
+    return this.localHostHttpClient.post('/contacts', {
       body: contact,
     });
   }
