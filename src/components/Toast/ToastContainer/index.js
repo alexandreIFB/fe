@@ -1,11 +1,12 @@
+import ToastMessage from '../ToastMessage';
 import { Container } from './styles';
 
 function ToastContainer() {
   return (
     <Container>
-      <h1>
-        Teste Container
-      </h1>
+      <ToastMessage text="Default Toast" />
+      <ToastMessage text="Erro Toast" type="error" />
+      <ToastMessage text="Sucess Toast" type="sucess" />
     </Container>
   );
 }
