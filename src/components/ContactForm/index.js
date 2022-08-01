@@ -78,6 +78,10 @@ function ContactForm({ buttonLabel, onSubmit }) {
     });
 
     seIsSubmitting(false);
+    setName('');
+    setEmail('');
+    setPhone('');
+    setCategoryId('');
   }
 
   return (
