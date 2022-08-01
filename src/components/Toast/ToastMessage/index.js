@@ -4,23 +4,27 @@ import { Container } from './styles';
 import xCircleIcon from '../../../assets/images/icons/x-circle.svg';
 import checkCircleIcon from '../../../assets/images/icons/check-circle.svg';
 
-function ToastMessage({ text, type }) {
+function ToastMessage({ message, onRemoveMessage }) {
+  function handleRemoveToast() {
+    onRemoveMessage(message.id);
+  }
+
   return (
-    <Container type={type}>
-      {(type === 'error') && <img src={xCircleIcon} alt="X" />}
-      {(type === 'sucess') && <img src={checkCircleIcon} alt="check" />}
-      <strong>{text}</strong>
+    <Container type={message.type} onClick={handleRemoveToast}>
+      {(message.type === 'error') && <img src={xCircleIcon} alt="X" />}
+      {(message.type === 'sucess') && <img src={checkCircleIcon} alt="check" />}
+      <strong>{message.text}</strong>
     </Container>
   );
 }
 
 ToastMessage.propTypes = {
-  text: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(['default', 'error', 'sucess']),
-};
-
-ToastMessage.defaultProps = {
-  type: 'default',
+  message: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    text: PropTypes.string.isRequired,
+    type: PropTypes.oneOf(['default', 'error', 'sucess']),
+  }).isRequired,
+  onRemoveMessage: PropTypes.func.isRequired,
 };
 
 export default ToastMessage;
